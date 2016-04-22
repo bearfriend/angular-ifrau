@@ -1,38 +1,25 @@
-angular.module('angular-ifrau', [
-])
+angular.module('angular-ifrau', [])
 
 .provider('AppHost', function AppHostProvider() {
 
 	var conf = {};
 	var client;
-	var ifrauClient;
 	var connected = false;
 
-	function connect(_ifrauClient) {
-		ifrauClient = _ifrauClient;
+	function init(_client) {
+		client = _client;
 	}
 
-	this.connect = connect;
+	this.init = init;
 
-	this.$get = ['$q', function AppHostFactory($q) {
+	this.$get = function AppHostFactory() {
 
 		function AppHost() {
 
 			function connect() {
-
-				if (connected) {
-					return $q.when(conf);
-				}
-
-				var defer = $q.defer();
-				client = new ifrauClient();
-				client.onEvent('cabinet.frapps.config', function(config) {
-					connected = true;
-					conf = _.assign(conf, config);
-					defer.resolve(conf);
-				});
-				client.connect();
-				return defer.promise;
+				var p = client.connect();
+				connected = true;
+				return p;
 			}
 
 			function sendEvent(eventName, payload) {
@@ -68,5 +55,5 @@ angular.module('angular-ifrau', [
 		}
 
 		return new AppHost();
-	}];
+	};
 });
