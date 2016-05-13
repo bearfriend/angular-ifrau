@@ -1,5 +1,5 @@
 {
-  "name": "angular-ifrau",
+  "name": "ifraung",
   "version": "2.0.0",
   "description": "angular services for iframe based free range apps",
   "scripts": {
@@ -7,9 +7,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/rschick/angular-ifrau.git"
+    "url": "git://github.com/bearfriend/ifraung.git"
   },
-  "author": "Russell.Schick@d2l.com",
+  "author": "daniel.gleckler@d2l.com",
   "license": "MIT",
   "devDependencies": {
     "jscs": "~1.13.1",
@@ -17,9 +17,9 @@
   },
   "dependencies": {},
   "bugs": {
-    "url": "https://github.com/rschick/angular-ifrau/issues"
+    "url": "https://github.com/bearfriend/ifraung/issues"
   },
-  "homepage": "https://github.com/rschick/angular-ifrau#readme",
+  "homepage": "https://github.com/bearfriend/ifraung#readme",
   "keywords": [
     "angular",
     "ifrau"
