@@ -1,39 +1,53 @@
 angular.module('ifraung', [])
 
-.provider('AppHost', function AppHostProvider() {
+.provider('IfraungClient', function IfraungClientProvider() {
 
-	var client;
-	var connected = false;
+	var Client = window.ifrauclient;
+	var options = {};
 
-	this.init = function(_client) {
-		client = _client;
+	this.init = function(_Client, _options) {
+		Client = _Client || Client;
+		options = _options || options;
 	};
 
-	this.$get = function AppHostFactory() {
+	var IfraungClient = function(options) {
+		Client.call(this, options);
+	}
 
-		function AppHost() {
+	this.$get = function ifraungClientFactory() {
 
-			function connect() {
-				return client.connect().then(function() {
-					connected = true;
-				});
-			}
-
-			function sendMessage(level, message) {
-				sendEvent('message', {
-					level: level,
-					message: message
-				});
-			}
-
-			this.sendEvent = client.sendEvent;
-			this.sendMessage = sendMessage;
-			this.navigate = client.navigate;
-			this.connect = client.connect;
-			this.request = client.request;
-			this.getService = client.getService;
+		if (!Client) {
+			console.error('Missing \'Client\' constructor.');
+			return;
 		}
 
-		return new AppHost();
+		IfraungClient.prototype = Object.create(Client.prototype);
+		return new IfraungClient(options);
+	};
+})
+
+.provider('IfraungHost', function IfraungHostProvider() {
+
+	var Host = window.ifrauhost;
+	var params = {};
+
+	this.init = function(_Host, _params) {
+		Host = _Host || Host;
+		params = params || _params;
+	};
+
+	var IfraungHost = function(params) {
+		Host.call(this, params);
+	}
+
+	this.$get = function ifraungHostFactory() {
+
+		if (!Host) {
+			console.error("Missing 'Host' constructor.");
+			return;
+		}
+
+		IfraungHost.prototype = Object.create(Host.prototype);
+		return new IfraungHost(params.parentProvider,params.endpoint,params.options);
 	};
 });
